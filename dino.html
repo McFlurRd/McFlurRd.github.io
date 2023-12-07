@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <style>
+    canvas {
+      border: 1px solid black;
+    }
+ </style>
+</head>
+<body>
+ <canvas id="myCanvas" width="800" height="400"></canvas>
+ <script>
+    const canvas = document.getElementById('myCanvas');
+    const ctx = canvas.getContext('2d');
+    const img = new Image();
+    img.src = 'dinocute.png'; // replace 'dino.png' with the path to your dinosaur image
+
+    let clickCount = 0;
+    let dinoX = 0;
+    let dinoY = 0;
+    let eggX = 0;
+    let eggY = 0;
+    let eggImage = new Image();
+    eggImage.src = 'egg.png'; // replace 'egg.png' with the path to your egg image
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, dinoX, dinoY);
+      if (clickCount >= 5) {
+        ctx.drawImage(eggImage, eggX, eggY);
+      }
+    }
+
+    function moveDino() {
+      dinoX = Math.random() * (canvas.width - img.width);
+      dinoY = Math.random() * (canvas.height - img.height);
+    }
+
+    function clickDino(e) {
+      clickCount++;
+      if (clickCount >= 5) {
+        eggX = Math.random() * (canvas.width - eggImage.width);
+        eggY = Math.random() * (canvas.height - eggImage.height);
+      } else {
+        moveDino();
+      }
+      draw();
+    }
+
+    canvas.addEventListener('click', clickDino);
+
+    moveDino();
+    draw();
+ </script>
+</body>
+</html>
